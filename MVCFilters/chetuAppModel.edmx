@@ -1,0 +1,181 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="chetuAuthoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="autho">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="200" />
+          <Property Name="password" Type="varchar(max)" />
+          <Property Name="name" Type="varchar" MaxLength="100" />
+          <Property Name="mobile" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="forgetPassword">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="userid" Type="int" />
+          <Property Name="requestcode" Type="varchar" MaxLength="100" />
+          <Property Name="requesttime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="products">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="title" Type="varchar" MaxLength="100" />
+          <Property Name="description" Type="varchar" MaxLength="250" />
+          <Property Name="quantity" Type="int" />
+          <Property Name="price" Type="money" />
+          <Property Name="imageUrl" Type="varchar(max)" />
+          <Property Name="createOn" Type="datetime" />
+        </EntityType>
+        <Association Name="FK__forgetPas__useri__239E4DCF">
+          <End Role="autho" Type="Self.autho" Multiplicity="0..1" />
+          <End Role="forgetPassword" Type="Self.forgetPassword" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="autho">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="forgetPassword">
+              <PropertyRef Name="userid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="chetuAuthoModelStoreContainer">
+          <EntitySet Name="autho" EntityType="Self.autho" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="forgetPassword" EntityType="Self.forgetPassword" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="products" EntityType="Self.products" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__forgetPas__useri__239E4DCF" Association="Self.FK__forgetPas__useri__239E4DCF">
+            <End Role="autho" EntitySet="autho" />
+            <End Role="forgetPassword" EntitySet="forgetPassword" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="chetuAuthoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="product">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="title" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="description" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="quantity" Type="Int32" />
+          <Property Name="price" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="imageUrl" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="createOn" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityContainer Name="chetuAuthoEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="products" EntityType="Self.product" />
+          <EntitySet Name="authoes" EntityType="chetuAuthoModel.autho" />
+          <EntitySet Name="forgetPasswords" EntityType="chetuAuthoModel.forgetPassword" />
+          <AssociationSet Name="FK__forgetPas__useri__239E4DCF" Association="chetuAuthoModel.FK__forgetPas__useri__239E4DCF">
+            <End Role="autho" EntitySet="authoes" />
+            <End Role="forgetPassword" EntitySet="forgetPasswords" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="autho">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="email" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="mobile" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="forgetPasswords" Relationship="chetuAuthoModel.FK__forgetPas__useri__239E4DCF" FromRole="autho" ToRole="forgetPassword" />
+        </EntityType>
+        <EntityType Name="forgetPassword">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="userid" Type="Int32" />
+          <Property Name="requestcode" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="requesttime" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="autho" Relationship="chetuAuthoModel.FK__forgetPas__useri__239E4DCF" FromRole="forgetPassword" ToRole="autho" />
+        </EntityType>
+        <Association Name="FK__forgetPas__useri__239E4DCF">
+          <End Type="chetuAuthoModel.autho" Role="autho" Multiplicity="0..1" />
+          <End Type="chetuAuthoModel.forgetPassword" Role="forgetPassword" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="autho">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="forgetPassword">
+              <PropertyRef Name="userid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="chetuAuthoModelStoreContainer" CdmEntityContainer="chetuAuthoEntities">
+          <EntitySetMapping Name="products">
+            <EntityTypeMapping TypeName="chetuAuthoModel.product">
+              <MappingFragment StoreEntitySet="products">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="imageUrl" ColumnName="imageUrl" />
+                <ScalarProperty Name="createOn" ColumnName="createOn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="authoes">
+            <EntityTypeMapping TypeName="chetuAuthoModel.autho">
+              <MappingFragment StoreEntitySet="autho">
+                <ScalarProperty Name="mobile" ColumnName="mobile" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="forgetPasswords">
+            <EntityTypeMapping TypeName="chetuAuthoModel.forgetPassword">
+              <MappingFragment StoreEntitySet="forgetPassword">
+                <ScalarProperty Name="requesttime" ColumnName="requesttime" />
+                <ScalarProperty Name="requestcode" ColumnName="requestcode" />
+                <ScalarProperty Name="userid" ColumnName="userid" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
