@@ -91,7 +91,12 @@ namespace MVCFilters.Controllers
                 if(SenEmail(forget.Email, "demo3408@gmail.com", otp))
                 {
                     var user = authoEntities.authoes.SingleOrDefault(e => e.email == forget.Email);
-
+                    var forgetpass = authoEntities.forgetPasswords.SingleOrDefault(e => e.userid == user.id);
+                    if (forgetpass != null)
+                    {
+                        authoEntities.forgetPasswords.Remove(forgetpass);
+                        authoEntities.SaveChanges();
+                    }
                     var pass = new forgetPassword()
                     {
                         requestcode = otp,
@@ -121,7 +126,14 @@ namespace MVCFilters.Controllers
 
                 if(user != null)
                 {
+                    var forgetpass = authoEntities.forgetPasswords.SingleOrDefault(e => e.userid == user.userid);
+                    if (forgetpass != null)
+                    {
+                        authoEntities.forgetPasswords.Remove(forgetpass);
+                        authoEntities.SaveChanges();
+                    }
                     ViewBag.stage = 2;
+                    Session["userid"] = user.userid;
                     return View("Forget");
                 }
                 else
@@ -133,6 +145,29 @@ namespace MVCFilters.Controllers
             else
             {
                 ViewBag.message = "Please enter OTP!";
+                return View("Forget");
+            }
+        }
+
+        [HttpPost]
+        public ActionResult ChangePassword(string password, string confirmPassword)
+        {
+            if (password == confirmPassword)
+            {
+                int uid = (int)Session["userid"];
+                var autho = authoEntities.authoes.SingleOrDefault(e => e.id ==uid );
+                var hashpass = MD5Hash(confirmPassword);
+                autho.password = hashpass;
+                authoEntities.Entry(autho).State = System.Data.Entity.EntityState.Modified;
+                authoEntities.SaveChanges();
+                ViewBag.stage = 3;
+                ViewBag.message = "Password reset successfully";
+                return View("Forget");
+            }
+            else
+            {
+                ViewBag.stage = 2;
+                ViewBag.message = "confirm password not matched";
                 return View("Forget");
             }
         }
