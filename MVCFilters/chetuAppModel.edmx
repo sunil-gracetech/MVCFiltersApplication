@@ -4,60 +4,72 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="chetuAuthoModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="autho">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="email" Type="varchar" MaxLength="200" />
-          <Property Name="password" Type="varchar(max)" />
-          <Property Name="name" Type="varchar" MaxLength="100" />
-          <Property Name="mobile" Type="varchar" MaxLength="20" />
-        </EntityType>
-        <EntityType Name="forgetPassword">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="userid" Type="int" />
-          <Property Name="requestcode" Type="varchar" MaxLength="100" />
-          <Property Name="requesttime" Type="datetime" />
-        </EntityType>
-        <EntityType Name="products">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="title" Type="varchar" MaxLength="100" />
-          <Property Name="description" Type="varchar" MaxLength="250" />
-          <Property Name="quantity" Type="int" />
-          <Property Name="price" Type="money" />
-          <Property Name="imageUrl" Type="varchar(max)" />
-          <Property Name="createOn" Type="datetime" />
-        </EntityType>
-        <Association Name="FK__forgetPas__useri__239E4DCF">
-          <End Role="autho" Type="Self.autho" Multiplicity="0..1" />
-          <End Role="forgetPassword" Type="Self.forgetPassword" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="autho">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="forgetPassword">
-              <PropertyRef Name="userid" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityContainer Name="chetuAuthoModelStoreContainer">
-          <EntitySet Name="autho" EntityType="Self.autho" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="forgetPassword" EntityType="Self.forgetPassword" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="products" EntityType="Self.products" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__forgetPas__useri__239E4DCF" Association="Self.FK__forgetPas__useri__239E4DCF">
-            <End Role="autho" EntitySet="autho" />
-            <End Role="forgetPassword" EntitySet="forgetPassword" />
-          </AssociationSet>
-        </EntityContainer>
-      </Schema></edmx:StorageModels>
+    <Schema Namespace="chetuAuthoModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="chetuAuthoModelStoreContainer">
+    <EntitySet Name="products" EntityType="chetuAuthoModel.Store.products" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="authoes" EntityType="chetuAuthoModel.Store.authoes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="forgetPasswords" EntityType="chetuAuthoModel.Store.forgetPasswords" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ExceptionLoggers" EntityType="chetuAuthoModel.Store.ExceptionLoggers" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK__forgetPas__useri__239E4DCF" Association="chetuAuthoModel.Store.FK__forgetPas__useri__239E4DCF">
+      <End Role="autho" EntitySet="authoes" />
+      <End Role="forgetPassword" EntitySet="forgetPasswords" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="products">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="title" Type="varchar" Nullable="true" MaxLength="100" />
+    <Property Name="description" Type="varchar" Nullable="true" MaxLength="250" />
+    <Property Name="quantity" Type="int" Nullable="true" />
+    <Property Name="price" Type="decimal" Nullable="true" Precision="19" Scale="4" />
+    <Property Name="imageUrl" Type="varchar(max)" Nullable="true" />
+    <Property Name="createOn" Type="datetime" Nullable="true" />
+  </EntityType>
+  <EntityType Name="authoes">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="email" Type="varchar" Nullable="true" MaxLength="200" />
+    <Property Name="password" Type="varchar(max)" Nullable="true" />
+    <Property Name="name" Type="varchar" Nullable="true" MaxLength="100" />
+    <Property Name="mobile" Type="varchar" Nullable="true" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="forgetPasswords">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="userid" Type="int" Nullable="true" />
+    <Property Name="requestcode" Type="varchar" Nullable="true" MaxLength="100" />
+    <Property Name="requesttime" Type="datetime" Nullable="true" />
+  </EntityType>
+  <EntityType Name="ExceptionLoggers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ExceptionMessage" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ExceptionStackTrack" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ControllerName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ActionName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="ExceptionLogTime" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="FK__forgetPas__useri__239E4DCF">
+    <End Role="autho" Type="chetuAuthoModel.Store.authoes" Multiplicity="0..1" />
+    <End Role="forgetPassword" Type="chetuAuthoModel.Store.forgetPasswords" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="autho">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="forgetPassword">
+        <PropertyRef Name="userid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="chetuAuthoModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -81,6 +93,7 @@
             <End Role="autho" EntitySet="authoes" />
             <End Role="forgetPassword" EntitySet="forgetPasswords" />
           </AssociationSet>
+          <EntitySet Name="ExceptionLoggers" EntityType="chetuAuthoModel.ExceptionLogger" />
         </EntityContainer>
         <EntityType Name="autho">
           <Key>
@@ -115,49 +128,71 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="ExceptionLogger">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ExceptionMessage" Type="String" Nullable="false" />
+          <Property Name="ExceptionStackTrack" Type="String" Nullable="false" />
+          <Property Name="ControllerName" Type="String" Nullable="false" />
+          <Property Name="ActionName" Type="String" Nullable="false" />
+          <Property Name="ExceptionLogTime" Type="String" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="chetuAuthoModelStoreContainer" CdmEntityContainer="chetuAuthoEntities">
-          <EntitySetMapping Name="products">
-            <EntityTypeMapping TypeName="chetuAuthoModel.product">
-              <MappingFragment StoreEntitySet="products">
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="title" ColumnName="title" />
-                <ScalarProperty Name="description" ColumnName="description" />
-                <ScalarProperty Name="quantity" ColumnName="quantity" />
-                <ScalarProperty Name="price" ColumnName="price" />
-                <ScalarProperty Name="imageUrl" ColumnName="imageUrl" />
-                <ScalarProperty Name="createOn" ColumnName="createOn" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="authoes">
-            <EntityTypeMapping TypeName="chetuAuthoModel.autho">
-              <MappingFragment StoreEntitySet="autho">
-                <ScalarProperty Name="mobile" ColumnName="mobile" />
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="password" ColumnName="password" />
-                <ScalarProperty Name="email" ColumnName="email" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="forgetPasswords">
-            <EntityTypeMapping TypeName="chetuAuthoModel.forgetPassword">
-              <MappingFragment StoreEntitySet="forgetPassword">
-                <ScalarProperty Name="requesttime" ColumnName="requesttime" />
-                <ScalarProperty Name="requestcode" ColumnName="requestcode" />
-                <ScalarProperty Name="userid" ColumnName="userid" />
-                <ScalarProperty Name="id" ColumnName="id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-        </EntityContainerMapping>
-      </Mapping>
-    </edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="chetuAuthoModelStoreContainer" CdmEntityContainer="chetuAuthoEntities">
+    <EntitySetMapping Name="products">
+      <EntityTypeMapping TypeName="IsTypeOf(chetuAuthoModel.product)">
+        <MappingFragment StoreEntitySet="products">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="title" ColumnName="title" />
+          <ScalarProperty Name="description" ColumnName="description" />
+          <ScalarProperty Name="quantity" ColumnName="quantity" />
+          <ScalarProperty Name="price" ColumnName="price" />
+          <ScalarProperty Name="imageUrl" ColumnName="imageUrl" />
+          <ScalarProperty Name="createOn" ColumnName="createOn" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="authoes">
+      <EntityTypeMapping TypeName="IsTypeOf(chetuAuthoModel.autho)">
+        <MappingFragment StoreEntitySet="authoes">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="email" ColumnName="email" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="mobile" ColumnName="mobile" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="forgetPasswords">
+      <EntityTypeMapping TypeName="IsTypeOf(chetuAuthoModel.forgetPassword)">
+        <MappingFragment StoreEntitySet="forgetPasswords">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="userid" ColumnName="userid" />
+          <ScalarProperty Name="requestcode" ColumnName="requestcode" />
+          <ScalarProperty Name="requesttime" ColumnName="requesttime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ExceptionLoggers">
+      <EntityTypeMapping TypeName="IsTypeOf(chetuAuthoModel.ExceptionLogger)">
+        <MappingFragment StoreEntitySet="ExceptionLoggers">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ExceptionMessage" ColumnName="ExceptionMessage" />
+          <ScalarProperty Name="ExceptionStackTrack" ColumnName="ExceptionStackTrack" />
+          <ScalarProperty Name="ControllerName" ColumnName="ControllerName" />
+          <ScalarProperty Name="ActionName" ColumnName="ActionName" />
+          <ScalarProperty Name="ExceptionLogTime" ColumnName="ExceptionLogTime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
   <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
@@ -171,7 +206,7 @@
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="true" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
-        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
       </DesignerInfoPropertySet>
     </Options>

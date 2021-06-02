@@ -191,12 +191,16 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\productsController.cs" />
+    <Compile Include="ExceptionLogger.cs">
+      <DependentUpon>chetuAppModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="forgetPassword.cs">
       <DependentUpon>chetuAppModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="MyCustomeExceptionFilter.cs" />
     <Compile Include="product.cs">
       <DependentUpon>chetuAppModel.tt</DependentUpon>
     </Compile>
@@ -210,6 +214,7 @@
       <DependentUpon>chetuAppModel.edmx</DependentUpon>
       <LastGenOutput>chetuAppModel.Context.cs</LastGenOutput>
     </Content>
+    <Content Include="chetuAppModel.edmx.sql" />
     <Content Include="chetuAppModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>chetuAppModel.edmx</DependentUpon>

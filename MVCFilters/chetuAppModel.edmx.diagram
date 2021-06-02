@@ -9,6 +9,7 @@
         <EntityTypeShape EntityType="chetuAuthoModel.autho" Width="1.5" PointX="3.375" PointY="0.75" />
         <EntityTypeShape EntityType="chetuAuthoModel.forgetPassword" Width="1.5" PointX="5.625" PointY="0.875" />
         <AssociationConnector Association="chetuAuthoModel.FK__forgetPas__useri__239E4DCF" />
+        <EntityTypeShape EntityType="chetuAuthoModel.ExceptionLogger" Width="1.5" PointX="3.375" PointY="3.25" IsExpanded="true" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

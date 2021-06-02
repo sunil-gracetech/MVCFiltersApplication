@@ -28,5 +28,6 @@ namespace MVCFilters
         public virtual DbSet<product> products { get; set; }
         public virtual DbSet<autho> authoes { get; set; }
         public virtual DbSet<forgetPassword> forgetPasswords { get; set; }
+        public virtual DbSet<ExceptionLogger> ExceptionLoggers { get; set; }
     }
 }
